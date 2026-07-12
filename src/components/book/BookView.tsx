@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useCategory, useCookbookActions } from '../../store/useCookbook'
 import { leatherFor } from '../../leather'
+import { useSerifFont } from '../../i18n/useSerifFont'
+import { LanguageToggle } from '../LanguageToggle'
 import { Spread } from './Spread'
 import { DogEar } from './DogEar'
 
@@ -11,6 +14,9 @@ function isTypingTarget(target: EventTarget | null): boolean {
 }
 
 export function BookView() {
+  const { t, i18n } = useTranslation()
+  const font = useSerifFont()
+  const isRtl = i18n.dir() === 'rtl'
   const { categoryId } = useParams<{ categoryId: string }>()
   const category = useCategory(categoryId ?? '')
   const { addPage, updatePage } = useCookbookActions()
@@ -46,9 +52,9 @@ export function BookView() {
   if (!category || !categoryId) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-[#22302A] text-[#F1E3BF]">
-        <p style={{ fontFamily: 'Georgia, serif' }}>Category not found.</p>
+        <p style={{ fontFamily: font }}>{t('book.categoryNotFound')}</p>
         <Link to="/" className="underline">
-          Back to shelf
+          {t('book.backToShelf')}
         </Link>
       </div>
     )
@@ -61,6 +67,10 @@ export function BookView() {
   const rightPageNumber = spreadIndex * 2 + 2
   const rangeStart = spreadIndex * 2 + 1
   const rangeEnd = Math.min(spreadIndex * 2 + 2, pages.length)
+
+  // Physically mirrored in RTL so prev/next follow reading direction.
+  const prevSide = isRtl ? 'right' : 'left'
+  const nextSide = isRtl ? 'left' : 'right'
 
   function handleAddPage() {
     addPage(categoryId!)
@@ -80,19 +90,20 @@ export function BookView() {
         <Link
           to="/"
           className="transition-opacity hover:opacity-80"
-          style={{ color: '#F1E3BF', fontFamily: 'Georgia, serif' }}
+          style={{ color: '#F1E3BF', fontFamily: font }}
         >
-          ← Back to shelf
+          {t('book.backToShelf')}
         </Link>
-        <h2
-          className="text-lg"
-          style={{ color: '#F1E3BF', fontFamily: 'Georgia, serif' }}
-        >
+        <h2 className="text-lg" style={{ color: '#F1E3BF', fontFamily: font }}>
           {category.name}
         </h2>
         <div className="flex items-center gap-4">
           <span style={{ color: 'rgba(241,227,191,0.7)' }}>
-            Pages {rangeStart}–{rangeEnd} of {pages.length}
+            {t('book.pagesRange', {
+              start: rangeStart,
+              end: rangeEnd,
+              total: pages.length,
+            })}
           </span>
           <button
             type="button"
@@ -100,8 +111,9 @@ export function BookView() {
             className="rounded border px-3 py-1 transition-colors hover:bg-[rgba(201,162,74,0.15)]"
             style={{ borderColor: '#C9A24B', color: '#C9A24B' }}
           >
-            + Add page
+            {t('book.addPage')}
           </button>
+          <LanguageToggle />
         </div>
       </div>
 
@@ -118,29 +130,34 @@ export function BookView() {
             <Spread
               key={spreadIndex}
               direction={direction}
+              isRtl={isRtl}
               leftPage={leftPage}
               rightPage={rightPage}
               leftPageNumber={leftPageNumber}
               rightPageNumber={rightPageNumber}
-              onChangeLeftTitle={(title) =>
-                leftPage && updatePage(categoryId, leftPage.id, { title })
+              onChangeLeft={(updates) =>
+                leftPage && updatePage(categoryId, leftPage.id, updates)
               }
-              onChangeLeftBody={(body) =>
-                leftPage && updatePage(categoryId, leftPage.id, { body })
-              }
-              onChangeRightTitle={(title) =>
-                rightPage && updatePage(categoryId, rightPage.id, { title })
-              }
-              onChangeRightBody={(body) =>
-                rightPage && updatePage(categoryId, rightPage.id, { body })
+              onChangeRight={(updates) =>
+                rightPage && updatePage(categoryId, rightPage.id, updates)
               }
               onAddRightHere={handleAddPage}
             />
           </div>
 
-          {spreadIndex > 0 && <DogEar side="left" onClick={goPrev} />}
+          {spreadIndex > 0 && (
+            <DogEar
+              physicalSide={prevSide}
+              label={t('book.previousPage')}
+              onClick={goPrev}
+            />
+          )}
           {spreadIndex < totalSpreads - 1 && (
-            <DogEar side="right" onClick={goNext} />
+            <DogEar
+              physicalSide={nextSide}
+              label={t('book.nextPage')}
+              onClick={goNext}
+            />
           )}
         </div>
       </main>

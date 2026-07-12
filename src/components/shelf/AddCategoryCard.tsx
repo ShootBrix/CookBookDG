@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useSerifFont } from '../../i18n/useSerifFont'
 
 type AddCategoryCardProps = {
   onAdd: (name: string) => void
 }
 
 export function AddCategoryCard({ onAdd }: AddCategoryCardProps) {
+  const { t } = useTranslation()
+  const font = useSerifFont()
   const [editing, setEditing] = useState(false)
   const [value, setValue] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
@@ -40,19 +44,19 @@ export function AddCategoryCard({ onAdd }: AddCategoryCardProps) {
             if (e.key === 'Escape') cancel()
           }}
           onBlur={cancel}
-          placeholder="Category name"
+          placeholder={t('shelf.categoryNamePlaceholder')}
           className="w-full border-b bg-transparent px-1 py-1 text-center text-sm outline-none"
           style={{
             color: '#F1E3BF',
             borderColor: '#C9A24B',
-            fontFamily: 'Georgia, serif',
+            fontFamily: font,
           }}
         />
         <span
           className="text-center text-[11px]"
           style={{ color: 'rgba(241,227,191,0.6)' }}
         >
-          Enter to add, Esc to cancel
+          {t('shelf.enterToAdd')}
         </span>
       </div>
     )
@@ -67,9 +71,9 @@ export function AddCategoryCard({ onAdd }: AddCategoryCardProps) {
     >
       <span
         className="text-sm tracking-wide uppercase"
-        style={{ color: '#C9A24B', fontFamily: 'Georgia, serif' }}
+        style={{ color: '#C9A24B', fontFamily: font }}
       >
-        + New Category
+        {t('shelf.newCategory')}
       </span>
     </button>
   )

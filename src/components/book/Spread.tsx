@@ -1,17 +1,17 @@
 import type { CSSProperties } from 'react'
 import type { RecipePage } from '../../types'
+import type { RecipePageUpdate } from '../../store/CookbookStore'
 import { Page } from './Page'
 
 type SpreadProps = {
   direction: 'forward' | 'backward'
+  isRtl: boolean
   leftPage: RecipePage | undefined
   rightPage: RecipePage | undefined
   leftPageNumber: number
   rightPageNumber: number
-  onChangeLeftTitle: (title: string) => void
-  onChangeLeftBody: (body: string) => void
-  onChangeRightTitle: (title: string) => void
-  onChangeRightBody: (body: string) => void
+  onChangeLeft: (updates: RecipePageUpdate) => void
+  onChangeRight: (updates: RecipePageUpdate) => void
   onAddRightHere?: () => void
 }
 
@@ -21,31 +21,29 @@ type SpreadProps = {
  */
 export function Spread({
   direction,
+  isRtl,
   leftPage,
   rightPage,
   leftPageNumber,
   rightPageNumber,
-  onChangeLeftTitle,
-  onChangeLeftBody,
-  onChangeRightTitle,
-  onChangeRightBody,
+  onChangeLeft,
+  onChangeRight,
   onAddRightHere,
 }: SpreadProps) {
+  // Forward flow follows reading direction: slides in from the trailing
+  // edge in LTR, from the leading edge in RTL.
+  const flipOffset = (direction === 'forward') === isRtl ? -28 : 28
+
   return (
     <div
       className="animate-page-flip relative flex flex-1 flex-col md:flex-row"
-      style={
-        {
-          '--flip-offset': direction === 'forward' ? '28px' : '-28px',
-        } as CSSProperties
-      }
+      style={{ '--flip-offset': `${flipOffset}px` } as CSSProperties}
     >
       <Page
         page={leftPage}
         pageNumber={leftPageNumber}
         side="left"
-        onChangeTitle={onChangeLeftTitle}
-        onChangeBody={onChangeLeftBody}
+        onChange={onChangeLeft}
       />
 
       {/* spine divider: vertical on desktop, horizontal on mobile */}
@@ -68,8 +66,7 @@ export function Spread({
         page={rightPage}
         pageNumber={rightPageNumber}
         side="right"
-        onChangeTitle={onChangeRightTitle}
-        onChangeBody={onChangeRightBody}
+        onChange={onChangeRight}
         onAddHere={!rightPage ? onAddRightHere : undefined}
       />
     </div>

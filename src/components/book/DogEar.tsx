@@ -1,16 +1,17 @@
 type DogEarProps = {
-  side: 'left' | 'right'
+  physicalSide: 'left' | 'right'
+  label: string
   onClick: () => void
 }
 
-export function DogEar({ side, onClick }: DogEarProps) {
-  const isLeft = side === 'left'
+export function DogEar({ physicalSide, label, onClick }: DogEarProps) {
+  const isLeft = physicalSide === 'left'
 
   return (
     <button
       type="button"
       onClick={onClick}
-      aria-label={isLeft ? 'Previous page' : 'Next page'}
+      aria-label={label}
       className={`group absolute bottom-0 h-10 w-10 transition-all duration-150 hover:h-14 hover:w-14 ${
         isLeft ? 'left-0' : 'right-0'
       }`}

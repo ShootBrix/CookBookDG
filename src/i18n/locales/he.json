@@ -1,0 +1,43 @@
+{
+  "app": {
+    "name": "CookBookDG",
+    "tagline": "המתכונים שלך, כרוכים בעור"
+  },
+  "shelf": {
+    "newCategory": "+ קטגוריה חדשה",
+    "categoryNamePlaceholder": "שם הקטגוריה",
+    "enterToAdd": "Enter להוספה, Esc לביטול",
+    "recipesCount_one": "מתכון אחד",
+    "recipesCount_two": "{{count}} מתכונים",
+    "recipesCount_many": "{{count}} מתכונים",
+    "recipesCount_other": "{{count}} מתכונים"
+  },
+  "book": {
+    "backToShelf": "→ חזרה למדף",
+    "addPage": "+ הוסף עמוד",
+    "pagesRange": "עמודים {{start}}–{{end}} מתוך {{total}}",
+    "addPageHere": "+ הוסף עמוד כאן",
+    "categoryNotFound": "הקטגוריה לא נמצאה.",
+    "previousPage": "העמוד הקודם",
+    "nextPage": "העמוד הבא",
+    "recipeTitlePlaceholder": "כותרת המתכון",
+    "bodyPlaceholder": "כתבו כאן את המתכון...",
+    "ingredientsPlaceholder": "רשמו את המרכיבים...",
+    "ingredients": "מרכיבים",
+    "servings": "מנות",
+    "prepTime": "זמן הכנה",
+    "cookTime": "זמן בישול",
+    "ovenTemp": "טמפ' תנור"
+  },
+  "delete": {
+    "affordanceLabel": "מחיקת {{name}}",
+    "title": "למחוק את {{name}}?",
+    "body": "פעולה זו תמחק לצמיתות את הספר הזה ואת כל המתכונים שבתוכו. לא ניתן לבטל פעולה זו.",
+    "cancel": "ביטול",
+    "confirm": "מחיקת ספר"
+  },
+  "language": {
+    "toggleToHebrew": "עברית",
+    "toggleToEnglish": "ENG"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "app": {
+    "name": "CookBookDG",
+    "tagline": "Your recipes, bound in leather"
+  },
+  "shelf": {
+    "newCategory": "+ New Category",
+    "categoryNamePlaceholder": "Category name",
+    "enterToAdd": "Enter to add, Esc to cancel",
+    "recipesCount_one": "{{count}} recipe",
+    "recipesCount_other": "{{count}} recipes"
+  },
+  "book": {
+    "backToShelf": "← Back to shelf",
+    "addPage": "+ Add page",
+    "pagesRange": "Pages {{start}}–{{end}} of {{total}}",
+    "addPageHere": "+ add a page here",
+    "categoryNotFound": "Category not found.",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "recipeTitlePlaceholder": "Recipe title",
+    "bodyPlaceholder": "Write the recipe here...",
+    "ingredientsPlaceholder": "List the ingredients...",
+    "ingredients": "Ingredients",
+    "servings": "Servings",
+    "prepTime": "Prep Time",
+    "cookTime": "Cook Time",
+    "ovenTemp": "Oven Temp"
+  },
+  "delete": {
+    "affordanceLabel": "Delete {{name}}",
+    "title": "Delete {{name}}?",
+    "body": "This will permanently delete this book and all recipes inside it. This action cannot be undone.",
+    "cancel": "Cancel",
+    "confirm": "Delete book"
+  },
+  "language": {
+    "toggleToHebrew": "עברית",
+    "toggleToEnglish": "ENG"
+  }
+}

@@ -33,6 +33,7 @@ export function useCookbookActions() {
   const store = useStore()
   return {
     addCategory: store.addCategory.bind(store),
+    deleteCategory: store.deleteCategory.bind(store),
     addPage: store.addPage.bind(store),
     updatePage: store.updatePage.bind(store),
   }

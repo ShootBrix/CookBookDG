@@ -6,15 +6,18 @@ import type { Category, RecipePage } from '../types'
  * backing implementation can move from in-memory to localStorage to a
  * real API without touching any component code.
  */
+export type RecipePageUpdate = Partial<Omit<RecipePage, 'id'>>
+
 export interface CookbookStore {
   getCategories(): Category[]
   getCategory(categoryId: string): Category | undefined
   addCategory(name: string): Category
+  deleteCategory(categoryId: string): void
   addPage(categoryId: string): RecipePage | undefined
   updatePage(
     categoryId: string,
     pageId: string,
-    updates: Partial<Pick<RecipePage, 'title' | 'body'>>,
+    updates: RecipePageUpdate,
   ): void
   subscribe(listener: () => void): () => void
 }
@@ -28,7 +31,16 @@ function nextId(prefix: string): string {
 }
 
 function makeBlankPage(): RecipePage {
-  return { id: nextId('page'), title: '', body: '' }
+  return {
+    id: nextId('page'),
+    title: '',
+    servings: '',
+    prepTime: '',
+    cookTime: '',
+    ovenTemp: '',
+    ingredients: '',
+    body: '',
+  }
 }
 
 const SEED_CATEGORIES: Category[] = [
@@ -84,6 +96,11 @@ export class InMemoryStore implements CookbookStore {
     return category
   }
 
+  deleteCategory(categoryId: string): void {
+    this.categories = this.categories.filter((c) => c.id !== categoryId)
+    this.notify()
+  }
+
   addPage(categoryId: string): RecipePage | undefined {
     const category = this.getCategory(categoryId)
     if (!category) return undefined
@@ -99,7 +116,7 @@ export class InMemoryStore implements CookbookStore {
   updatePage(
     categoryId: string,
     pageId: string,
-    updates: Partial<Pick<RecipePage, 'title' | 'body'>>,
+    updates: RecipePageUpdate,
   ): void {
     this.categories = this.categories.map((c) => {
       if (c.id !== categoryId) return c
