@@ -1,0 +1,16 @@
+node_modules
+dist
+.git
+.env
+.env.*
+coverage
+docs/screenshots
+
+# backend has its own build context (./api) - irrelevant to the web image
+api
+
+# editor / OS
+.vscode
+.idea
+.DS_Store
+Thumbs.db
