@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCategories, useCookbookActions } from '../../store/useCookbook'
 import type { Category } from '../../types'
@@ -25,6 +25,10 @@ export function ShelfView() {
   const categories = useCategories()
   const { addCategory, deleteCategory } = useCookbookActions()
   const [deleteTarget, setDeleteTarget] = useState<Category | null>(null)
+
+  useEffect(() => {
+    document.title = t('app.name')
+  }, [t])
 
   const rows = chunk(categories, BOOKS_PER_SHELF)
   const lastRow = rows[rows.length - 1]

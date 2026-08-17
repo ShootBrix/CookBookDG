@@ -1,5 +1,13 @@
 @import 'tailwindcss';
 
+@theme {
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+}
+
+html[lang='he'] {
+  --font-display: 'Frank Ruhl Libre', 'Cormorant Garamond', Georgia, serif;
+}
+
 :root {
   color-scheme: light dark;
 }
@@ -28,4 +36,14 @@ body {
 
 .animate-page-flip {
   animation: page-flip 220ms ease-out;
+}
+
+.recipe-photo-frame {
+  transform: rotate(var(--photo-rotation, 0deg));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recipe-photo-frame {
+    transform: none;
+  }
 }

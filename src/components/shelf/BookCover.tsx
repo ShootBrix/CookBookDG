@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import type { Category } from '../../types'
 import { leatherFor } from '../../leather'
-import { countRecipes } from '../../recipeUtils'
+import { displayRecipeCount } from '../../recipeUtils'
 import { useSerifFont } from '../../i18n/useSerifFont'
 
 type BookCoverProps = {
@@ -24,12 +24,12 @@ export function BookCover({ category, onDeleteRequest }: BookCoverProps) {
   const font = useSerifFont()
   const isRtl = i18n.dir() === 'rtl'
   const leather = leatherFor(category.leather)
-  const recipeCount = countRecipes(category.pages)
+  const recipeCount = displayRecipeCount(category)
   const pageEdgeShadowX = isRtl ? 6 : -6
 
   return (
     <Link
-      to={`/book/${category.id}`}
+      to={`/book/${category.slug}`}
       className="group relative block h-[236px] w-[168px] shrink-0 transition-transform duration-[180ms] ease-out will-change-transform hover:-translate-y-2 hover:rotate-[-1deg]"
       style={{
         background: `linear-gradient(105deg, ${leather.cover}, ${leather.spine})`,

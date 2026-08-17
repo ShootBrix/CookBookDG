@@ -1,25 +1,19 @@
-import type { CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { RecipePage } from '../../types'
 import type { RecipePageUpdate } from '../../store/CookbookStore'
 import { useSerifFont } from '../../i18n/useSerifFont'
+import { RecipeGrid } from './RecipeGrid'
+import { SaveBar } from './SaveBar'
+import type { PageImageActions } from './imageActions'
 
 type PageProps = {
+  categoryId: string
   page: RecipePage | undefined
   pageNumber: number
   side: 'left' | 'right'
   onChange: (updates: RecipePageUpdate) => void
   onAddHere?: () => void
-}
-
-const RULE_LINE_HEIGHT = 28
-
-function ruledBackground(): CSSProperties {
-  return {
-    lineHeight: `${RULE_LINE_HEIGHT}px`,
-    backgroundImage: `repeating-linear-gradient(to bottom, transparent, transparent ${RULE_LINE_HEIGHT - 1}px, rgba(122,96,58,0.22) ${RULE_LINE_HEIGHT - 1}px, rgba(122,96,58,0.22) ${RULE_LINE_HEIGHT}px)`,
-    backgroundAttachment: 'local',
-  }
+  imageActions?: PageImageActions
 }
 
 type MetaFieldProps = {
@@ -53,20 +47,26 @@ function MetaField({ label, value, font, onChange, first }: MetaFieldProps) {
 }
 
 export function Page({
+  categoryId,
   page,
   pageNumber,
   side,
   onChange,
   onAddHere,
+  imageActions,
 }: PageProps) {
   const { t, i18n } = useTranslation()
   const font = useSerifFont()
   const isRtl = i18n.dir() === 'rtl'
   const angle = (side === 'left') !== isRtl ? 90 : 270
+  const basisClass =
+    side === 'left'
+      ? 'md:basis-[var(--left-basis)]'
+      : 'md:basis-[var(--right-basis)]'
 
   return (
     <div
-      className="relative flex h-full min-h-[520px] flex-1 flex-col px-8 pt-8 pb-10"
+      className={`relative flex h-full min-h-[520px] min-w-0 flex-1 flex-col overflow-y-auto overflow-x-hidden px-8 pt-8 pb-10 md:grow-0 md:shrink-0 ${basisClass}`}
       style={{
         background: `linear-gradient(${angle}deg, #E9DFC8 0%, #F6EFDF 8%, #F6EFDF 100%)`,
       }}
@@ -113,54 +113,11 @@ export function Page({
             />
           </div>
 
-          <div className="flex min-h-0 flex-1 flex-col">
-            <div
-              className="flex flex-col"
-              style={{ flex: '0 0 25%', minHeight: 0 }}
-            >
-              <span
-                className="mb-1 text-[11px] tracking-wider uppercase"
-                style={{ color: 'rgba(43,38,34,0.55)', fontFamily: font }}
-              >
-                {t('book.ingredients')}
-              </span>
-              <textarea
-                value={page.ingredients}
-                onChange={(e) => onChange({ ingredients: e.target.value })}
-                placeholder={t('book.ingredientsPlaceholder')}
-                className="min-h-0 flex-1 resize-none bg-transparent outline-none"
-                style={{
-                  color: '#3B2E1F',
-                  fontFamily: font,
-                  ...ruledBackground(),
-                }}
-              />
-              <div>
-                <div
-                  style={{ borderBottom: '1px solid rgba(201,162,74,0.65)' }}
-                />
-                <div
-                  style={{
-                    marginTop: '2px',
-                    borderBottom: '1px solid rgba(201,162,74,0.35)',
-                  }}
-                />
-              </div>
-            </div>
-
-            <textarea
-              value={page.body}
-              onChange={(e) => onChange({ body: e.target.value })}
-              placeholder={t('book.bodyPlaceholder')}
-              className="mt-3 min-h-0 resize-none bg-transparent outline-none"
-              style={{
-                flex: '1 1 75%',
-                color: '#3B2E1F',
-                fontFamily: font,
-                ...ruledBackground(),
-              }}
-            />
-          </div>
+          <RecipeGrid
+            page={page}
+            onChange={onChange}
+            imageActions={imageActions!}
+          />
 
           <div
             className={`mt-2 text-xs italic ${side === 'left' ? 'text-start' : 'text-end'}`}
@@ -168,6 +125,8 @@ export function Page({
           >
             — {pageNumber} —
           </div>
+
+          <SaveBar categoryId={categoryId} pageId={page.id} font={font} />
         </>
       ) : onAddHere ? (
         <button

@@ -12,10 +12,20 @@ dist
 dist-ssr
 *.local
 
+# Docker env - copy .env.example instead
+.env
+
+# .NET build output
+api/bin
+api/obj
+CbdgApi.Tests/bin
+CbdgApi.Tests/obj
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
+.vs
 .DS_Store
 *.suo
 *.ntvs*

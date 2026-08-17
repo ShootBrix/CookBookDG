@@ -7,7 +7,7 @@ type ShelfRowProps = {
 export function ShelfRow({ children }: ShelfRowProps) {
   return (
     <div className="flex flex-col">
-      <div className="flex items-end gap-6 overflow-x-auto px-2 pb-2">
+      <div className="flex items-end gap-6 overflow-visible px-2 pt-6 pb-2">
         {children}
       </div>
       <div

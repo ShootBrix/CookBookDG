@@ -7,6 +7,7 @@
     "newCategory": "+ New Category",
     "categoryNamePlaceholder": "Category name",
     "enterToAdd": "Enter to add, Esc to cancel",
+    "recipesCount_zero": "empty",
     "recipesCount_one": "{{count}} recipe",
     "recipesCount_other": "{{count}} recipes"
   },
@@ -18,14 +19,85 @@
     "categoryNotFound": "Category not found.",
     "previousPage": "Previous page",
     "nextPage": "Next page",
+    "resizeDivider": "Resize pages",
+    "resizeWidth": "Resize spread width",
+    "resizeHeight": "Resize spread height",
     "recipeTitlePlaceholder": "Recipe title",
-    "bodyPlaceholder": "Write the recipe here...",
-    "ingredientsPlaceholder": "List the ingredients...",
-    "ingredients": "Ingredients",
     "servings": "Servings",
     "prepTime": "Prep Time",
     "cookTime": "Cook Time",
-    "ovenTemp": "Oven Temp"
+    "ovenTemp": "Oven Temp",
+    "actions": {
+      "menuLabel": "More actions for {{name}}",
+      "rename": "Rename book",
+      "delete": "Delete book"
+    },
+    "renameDialog": {
+      "title": "Rename book",
+      "label": "Book name",
+      "cancel": "Cancel",
+      "save": "Save name",
+      "errorEmpty": "Give the book a name.",
+      "errorTooLong": "Keep it to 60 characters or fewer.",
+      "errorDuplicate": "You already have a book named \"{{name}}\"."
+    },
+    "save": {
+      "save": "Save",
+      "unsaved": "Unsaved changes",
+      "saving": "Saving…",
+      "saved": "Saved",
+      "error": "Couldn't save. Try again.",
+      "retry": "Retry"
+    },
+    "unsavedDialog": {
+      "title": "Unsaved changes",
+      "body": "This book has recipes with unsaved edits. Save them before leaving, or discard the changes?",
+      "discard": "Discard",
+      "cancel": "Cancel"
+    },
+    "grid": {
+      "ingredients": "Ingredients",
+      "steps": "Steps",
+      "setupPlaceholder": "Setup step...",
+      "addSetupStep": "+ add a setup step",
+      "deleteSetupStep": "Delete setup step",
+      "amountPlaceholder": "amount",
+      "ingredientNamePlaceholder": "ingredient",
+      "stepLabelPlaceholder": "step",
+      "addIngredient": "+ add ingredient",
+      "deleteIngredient": "Delete {{name}}",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "selectRow": "Select row",
+      "combine": "Combine",
+      "combineWithCount": "Combine ({{count}})",
+      "combineDisabledHint": "Select one or more adjacent rows to combine",
+      "selectionNonAdjacent": "Only adjacent rows can be combined.",
+      "ungroup": "Ungroup",
+      "empty": "No ingredients yet.",
+      "notesPlaceholder": "Notes...",
+      "images": {
+        "addButton": "+ add photo",
+        "dropHint": "or drop an image here",
+        "limit": "2 of 2 images",
+        "processing": "Processing photo…",
+        "captionPlaceholder": "Caption…",
+        "deleteLabel": "Delete photo",
+        "removeConfirmPrompt": "Remove this photo?",
+        "removeConfirmYes": "Remove",
+        "removeConfirmNo": "Cancel",
+        "lightboxClose": "Close",
+        "openLightbox": "View photo larger",
+        "errorInvalidType": "Please choose a PNG, JPEG, or WebP image.",
+        "errorDecodeFailed": "That file couldn't be read as an image.",
+        "errorTooLarge": "This photo is too large even after compression - try a smaller image.",
+        "errorLimitReached": "This page already has 2 images.",
+        "errorQuotaExceeded": "There isn't enough storage left for this photo. Delete another image and try again.",
+        "errorNotFound": "Couldn't find this recipe page. Try reloading.",
+        "skipped_one": "{{count}} extra photo was skipped - only 2 images are allowed per page.",
+        "skipped_other": "{{count}} extra photos were skipped - only 2 images are allowed per page."
+      }
+    }
   },
   "delete": {
     "affordanceLabel": "Delete {{name}}",
@@ -37,5 +109,16 @@
   "language": {
     "toggleToHebrew": "עברית",
     "toggleToEnglish": "ENG"
+  },
+  "error": {
+    "title": "This page slipped off the shelf",
+    "body": "Something went wrong while rendering this page. Reloading or heading back to the shelf should sort it out.",
+    "unsavedWarning": "Some of your edits haven't been saved yet, and they may be lost if you leave now.",
+    "retrySave": "Retry save",
+    "retrying": "Saving…",
+    "retryFailed": "The save attempt failed again. Your edits are still unsaved.",
+    "reload": "Reload",
+    "backToShelf": "Back to shelf",
+    "detailsToggle": "Technical details (development only)"
   }
 }
