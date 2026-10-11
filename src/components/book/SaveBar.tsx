@@ -13,10 +13,11 @@ type SaveBarProps = {
 }
 
 /**
- * Normal block element at the end of the page's content, after the notes
- * area - it scrolls with the page like everything else. Present in the DOM
- * only while there's something to report (not idle), so a saved/untouched
- * page renders exactly as it did before this feature existed.
+ * Sits in Page.tsx's non-scrolling footer, alongside the page number, below
+ * the scrollable recipe content - so it stays pinned to the true bottom of
+ * the page regardless of content length instead of drifting with it. Present
+ * in the DOM only while there's something to report (not idle), so a
+ * saved/untouched page renders exactly as it did before this feature existed.
  */
 export function SaveBar({ categoryId, pageId, font }: SaveBarProps) {
   const { t } = useTranslation()

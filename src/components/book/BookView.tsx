@@ -44,6 +44,7 @@ export function BookView() {
   const {
     addPage,
     updatePage,
+    deletePage,
     getBookLayout,
     setBookLayout,
     addImage,
@@ -60,6 +61,7 @@ export function BookView() {
   const [blockerBusy, setBlockerBusy] = useState(false)
   const [renameOpen, setRenameOpen] = useState(false)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
+  const [deletePageTarget, setDeletePageTarget] = useState<string | null>(null)
 
   useEffect(() => {
     document.title = category ? `${category.name} · ${t('app.name')}` : t('app.name')
@@ -200,6 +202,15 @@ export function BookView() {
     navigate('/')
   }
 
+  function handleDeletePageConfirm() {
+    if (!deletePageTarget) return
+    deletePage(categoryId!, deletePageTarget)
+    setDeletePageTarget(null)
+    // The spread this page lived on may no longer exist once it's gone.
+    const newTotalSpreads = Math.max(1, Math.ceil((pages.length - 1) / 2))
+    setSpreadIndex((i) => Math.min(i, newTotalSpreads - 1))
+  }
+
   const bookActions: BookActionItem[] = [
     { id: 'rename', labelKey: 'book.actions.rename', action: () => setRenameOpen(true) },
     {
@@ -299,11 +310,11 @@ export function BookView() {
           >
             {t('book.addPage')}
           </button>
+          <LanguageToggle />
           <BookActionsMenu
             items={bookActions}
             ariaLabel={t('book.actions.menuLabel', { name: category.name })}
           />
-          <LanguageToggle />
         </div>
       </div>
 
@@ -337,6 +348,12 @@ export function BookView() {
                 rightPage && updatePage(categoryId, rightPage.id, updates)
               }
               onAddRightHere={handleAddPage}
+              onDeleteLeft={
+                leftPage ? () => setDeletePageTarget(leftPage.id) : undefined
+              }
+              onDeleteRight={
+                rightPage ? () => setDeletePageTarget(rightPage.id) : undefined
+              }
               leftImageActions={
                 leftPage ? makeImageActions(leftPage.id) : undefined
               }
@@ -426,6 +443,16 @@ export function BookView() {
         confirmLabel={t('delete.confirm')}
         onCancel={() => setDeleteConfirmOpen(false)}
         onConfirm={handleDeleteConfirm}
+      />
+
+      <ConfirmDialog
+        open={deletePageTarget !== null}
+        title={t('book.deletePage.title')}
+        body={t('book.deletePage.body')}
+        cancelLabel={t('book.deletePage.cancel')}
+        confirmLabel={t('book.deletePage.confirm')}
+        onCancel={() => setDeletePageTarget(null)}
+        onConfirm={handleDeletePageConfirm}
       />
     </div>
   )

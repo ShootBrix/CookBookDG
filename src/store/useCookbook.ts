@@ -102,6 +102,7 @@ export function useCookbookActions() {
     deleteCategory: store.deleteCategory.bind(store),
     addPage: store.addPage.bind(store),
     updatePage: store.updatePage.bind(store),
+    deletePage: store.deletePage.bind(store),
     getBookLayout: store.getBookLayout.bind(store),
     setBookLayout: store.setBookLayout.bind(store),
     addImage: store.addImage.bind(store),

@@ -16,6 +16,8 @@ type SpreadProps = {
   onChangeLeft: (updates: RecipePageUpdate) => void
   onChangeRight: (updates: RecipePageUpdate) => void
   onAddRightHere?: () => void
+  onDeleteLeft?: () => void
+  onDeleteRight?: () => void
   leftImageActions?: PageImageActions
   rightImageActions?: PageImageActions
   /** Fraction of spread width given to the visually-left page. */
@@ -42,6 +44,8 @@ export function Spread({
   onChangeLeft,
   onChangeRight,
   onAddRightHere,
+  onDeleteLeft,
+  onDeleteRight,
   leftImageActions,
   rightImageActions,
   pageRatio,
@@ -77,6 +81,7 @@ export function Spread({
         pageNumber={leftPageNumber}
         side="left"
         onChange={onChangeLeft}
+        onDeleteRequest={onDeleteLeft}
         imageActions={leftImageActions}
       />
 
@@ -112,6 +117,7 @@ export function Spread({
         side="right"
         onChange={onChangeRight}
         onAddHere={!rightPage ? onAddRightHere : undefined}
+        onDeleteRequest={onDeleteRight}
         imageActions={rightImageActions}
       />
     </div>

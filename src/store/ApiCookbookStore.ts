@@ -398,6 +398,40 @@ export class ApiCookbookStore implements PersistentCookbookStore {
     this.notify()
   }
 
+  /** Optimistic like removeImage - removes locally first, rolls back (at its
+   * original index) if the DELETE fails. Also drops the page's draft/save
+   * bookkeeping so a stale entry can't leak into anyUnsavedChanges. */
+  deletePage(categoryId: string, pageId: string): void {
+    const category = this.categories.find((c) => c.id === categoryId)
+    const index = category?.pages.findIndex((p) => p.id === pageId) ?? -1
+    const removed = category?.pages[index]
+    if (!category || !removed || index < 0) return
+
+    this.updateCategory(categoryId, (c) => ({
+      ...c,
+      pages: c.pages.filter((p) => p.id !== pageId),
+    }))
+    this.snapshots.delete(pageId)
+    this.pageUpdatedAt.delete(pageId)
+    this.saveStates.delete(pageId)
+    this.saveErrors.delete(pageId)
+    this.refreshRecipeCount(categoryId)
+    this.notify()
+
+    apiFetch<void>(`/pages/${pageId}`, { method: 'DELETE' }).catch((err: unknown) => {
+      console.error('Failed to delete page', err)
+      this.updateCategory(categoryId, (c) => {
+        const pages = [...c.pages]
+        pages.splice(Math.min(index, pages.length), 0, removed)
+        return { ...c, pages }
+      })
+      this.snapshots.set(pageId, structuredClone(removed))
+      this.saveStates.set(pageId, 'idle')
+      this.refreshRecipeCount(categoryId)
+      this.notify()
+    })
+  }
+
   private recomputeDirty(pageId: string): void {
     if (this.saveStates.get(pageId) === 'saving') return
     const snapshot = this.snapshots.get(pageId)

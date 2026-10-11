@@ -61,6 +61,7 @@ export interface CookbookStore {
     pageId: string,
     updates: RecipePageUpdate,
   ): void
+  deletePage(categoryId: string, pageId: string): void
   getBookLayout(categoryId: string): BookLayout
   setBookLayout(categoryId: string, updates: Partial<BookLayout>): void
   /**
@@ -379,6 +380,15 @@ export class InMemoryStore implements CookbookStore {
         pages: c.pages.map((p) => (p.id === pageId ? { ...p, ...updates } : p)),
       }
     })
+    this.notify()
+  }
+
+  deletePage(categoryId: string, pageId: string): void {
+    this.categories = this.categories.map((c) =>
+      c.id === categoryId
+        ? { ...c, pages: c.pages.filter((p) => p.id !== pageId) }
+        : c,
+    )
     this.notify()
   }
 

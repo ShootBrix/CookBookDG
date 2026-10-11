@@ -32,6 +32,13 @@
       "rename": "Rename book",
       "delete": "Delete book"
     },
+    "deletePage": {
+      "tooltip": "Tear out this page",
+      "title": "Tear out this page?",
+      "body": "This will permanently delete this recipe page and everything on it. This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Tear out page"
+    },
     "renameDialog": {
       "title": "Rename book",
       "label": "Book name",
